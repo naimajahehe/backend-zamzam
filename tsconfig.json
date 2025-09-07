@@ -1,0 +1,25 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "bundler",
+    "types": ["jest", "node"],
+
+    "sourceMap": true,
+    "declaration": false,
+    "declarationMap": false,
+
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  }
+}
