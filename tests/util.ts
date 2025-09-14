@@ -1,6 +1,6 @@
-import User from "../src/models/user";
+import User from "../src/modules/user/models/user";
 import bcrypt from "bcrypt";
-import Product from "../src/models/product";
+import Product from "../src/modules/product/models/product";
 import {Types} from "mongoose";
 import {v4 as uuid} from "uuid";
 import randomName from "@scaleway/random-name";

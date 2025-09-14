@@ -1,6 +1,6 @@
 import type {NextFunction, Response} from "express";
 import type {GetUserRequestId, UserRequest} from "../types/user-models";
-import User from "../models/user";
+import User from "../modules/user/models/user";
 import {ResponseError} from "../errors/response-error";
 
 export const emailVerifyMiddleware = async (req: UserRequest, res:Response, next: NextFunction) => {

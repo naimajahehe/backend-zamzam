@@ -1,68 +1,23 @@
 import type {Request} from "express";
-import {type Document, Types} from "mongoose";
-import type {Paging} from "./page";
-import type {JwtPayload} from "jsonwebtoken";
+import {Types} from "mongoose";
 
 export interface IUser {
+    _id: Types.ObjectId;
     firstName: string;
     lastName: string;
     email: string;
     username: string;
     password: string;
-    gender: string;
+    gender: "male" | "female";
     isVerified: boolean;
     verificationCode: number | null;
 }
 
-export interface CreateUserRequest {
-    firstName: string;
-    lastName: string;
-    email: string;
-    username: string;
-    password: string;
-    confirmPassword: string;
-    gender: "male" | "female";
-}
+export type UserResponse = Pick<IUser,
+    'email' | 'username' | 'firstName' | 'lastName' | 'gender' >
 
-export interface UserResponse {
-    email: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    token?: string;
-}
-
-export interface LoginUserRequest {
-    username: string;
-    password: string;
-}
-
-export type GetUserRequestId = Types.ObjectId;
-export type AuthToken = string;
-export type UserEmail = string;
-
-export interface UpdateUserRequest {
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    username?: string;
-}
-
-export interface ApiResponse<T> {
-    success: boolean;
-    message: string;
-    data: T | null;
-    errors: string | string[] | null;
-    paging?: Paging;
-}
-
-export interface IUserDocument extends Document {
-    email: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    sessionToken?: string | null;
-}
+export type UpdateUserRequest = Partial<Pick<IUser,
+    'firstName' | 'lastName' | 'email' | 'username'>>;
 
 export interface UserRequest extends Request {
     user?: {
@@ -76,18 +31,3 @@ export interface UpdatePasswordUserRequest {
     newPassword: string;
     confirmPassword: string;
 }
-
-export interface TokenPayload extends JwtPayload {
-    id: string;
-}
-
-export interface ResetPasswordUserRequest {
-    newPassword: string;
-    confirmPassword: string;
-}
-
-export interface AuthTokenResponse {
-    resetToken: AuthToken
-}
-
-export type VerifyCodeUserRequest = number;

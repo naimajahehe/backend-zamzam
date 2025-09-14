@@ -1,6 +1,6 @@
 import type {NextFunction, Response} from "express";
 import {ResponseError} from "../errors/response-error";
-import User from "../models/user";
+import User from "../modules/user/models/user";
 import type {UserRequest} from "../types/user-models";
 import {JWT} from "../utils/jwt";
 

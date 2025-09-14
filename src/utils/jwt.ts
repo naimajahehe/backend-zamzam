@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config'
-import type {TokenPayload} from "../types/user-models";
 import {ResponseError} from "../errors/response-error";
+import type {TokenPayload} from "../types/common";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRES_IN = '1d';
 
 export class JWT {
-    static sign(payload: object): string {
+    static sign(payload: TokenPayload): string {
         return jwt.sign(payload, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
     }
 

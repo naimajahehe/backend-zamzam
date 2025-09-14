@@ -1,8 +1,8 @@
 import express from "express";
 import {authMiddleware} from "../middlewares/auth-middleware";
 import {emailVerifyMiddleware} from "../middlewares/email-verify-middleware";
-import {ProductControllers} from "../controllers/product-controllers";
-import {OrderControllers} from "../controllers/order-controllers";
+import {ProductControllers} from "../modules/product/controllers/product-controllers";
+import {OrderController} from "../modules/order/controllers/order-controller";
 
 const verifyApiRouter = express.Router();
 
@@ -15,11 +15,11 @@ verifyApiRouter.patch('/api/products/:id', ProductControllers.update);
 verifyApiRouter.delete('/api/products/:id', ProductControllers.delete);
 
 //orders
-verifyApiRouter.post('/api/orders', OrderControllers.createOrder);
-verifyApiRouter.patch('/api/orders/:id/update', OrderControllers.updateOrder);
-verifyApiRouter.patch('/api/orders/:id/cancel', OrderControllers.cancelOrder);
-verifyApiRouter.post('/api/orders/:id/delete', OrderControllers.deleteOrder);
-verifyApiRouter.post('/api/orders/:id/product', OrderControllers.addProductOrder);
-verifyApiRouter.post('/api/orders/:id/print', OrderControllers.printReceipt);
+verifyApiRouter.post('/api/orders', OrderController.createOrder);
+verifyApiRouter.patch('/api/orders/:id/update', OrderController.updateOrder);
+verifyApiRouter.patch('/api/orders/:id/cancel', OrderController.cancelOrder);
+verifyApiRouter.post('/api/orders/:id/delete', OrderController.deleteOrder);
+verifyApiRouter.post('/api/orders/:id/product', OrderController.addProductOrder);
+verifyApiRouter.post('/api/orders/:id/print', OrderController.printReceipt);
 
 export default verifyApiRouter;

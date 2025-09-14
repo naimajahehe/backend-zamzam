@@ -1,5 +1,5 @@
 import { Item, Register } from "../util";
-import Product from "../../src/models/product";
+import Product from "../../src/modules/product/models/product";
 import supertest from "supertest";
 import web from "../../src/applications/web";
 import logger from "../../src/applications/logging";

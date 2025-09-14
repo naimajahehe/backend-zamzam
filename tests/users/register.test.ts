@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import web from "../../src/applications/web";
 import {Register} from "../util";
-import User from "../../src/models/user";
+import User from "../../src/modules/user/models/user";
 import logger from "../../src/applications/logging";
 
 describe('POST /api/users', () => {

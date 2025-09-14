@@ -1,13 +1,22 @@
 import {z} from "zod";
 import {Types} from "mongoose";
 
-const fields = {
+export const fields = {
     id: z.union([
         z.string().regex(/^[0-9a-fA-F]{24}$/, "id tidak valid"),
         z.instanceof(Types.ObjectId)
     ]).transform((val) =>
         typeof val === "string" ? new Types.ObjectId(val) : val
-    )
+    ),
+    email: z.email().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
+    token: z.string().min(1, 'Wajib mengisi token'),
+    firstName: z.string().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
+    lastName: z.string().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
+    username: z.string().min(5, 'minimal 5 karakter').max(100, 'maksimal 100 karakter'),
+    password: z.string().min(6, 'minimal 6 karakter').max(100, 'maksimal 100 karakter'),
+    confirmPassword: z.string().min(6, 'minimal 6 karakter').max(100, 'maksimal 100 karakter'),
+    gender: z.enum(['male', 'female'], 'gender male atau female saja'),
+    verificationCode: z.number().int().min(100000, "Verifikasi kode minimal 6 digit").max(999999, "Verifikasi kode maksimal 6 digit")
 }
 export const userFields = {
     id: fields.id,

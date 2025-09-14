@@ -48,6 +48,7 @@ describe('Forgot Password Flow', () => {
                 verificationCode,
                 email: 'naimmnaim123@gmail.com'
             });
+        console.log(verifyRes.body);
         const resetToken = verifyRes.body.data.resetToken;
         expect(verifyRes.status).toBe(200);
         expect(resetToken).toBeDefined();
