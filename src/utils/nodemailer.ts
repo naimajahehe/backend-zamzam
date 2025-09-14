@@ -2,8 +2,8 @@ import nodemailer from 'nodemailer';
 import 'dotenv/config';
 import { customAlphabet } from 'nanoid';
 import {ResponseError} from "../errors/response-error";
-import type {AuthToken, UserEmail} from "../types/user-models";
-import type {OrderModels, ProductModel} from "../types/order-models";
+import type {AuthToken, UserEmail} from "../types/user.types";
+import type {OrderTypes, ProductModel} from "../types/order.types";
 
 const USER = process.env.SMTP_USER as string;
 const HOST = process.env.SMTP_HOST as string;
@@ -49,7 +49,7 @@ export class Nodemailer {
         return Number(code);
     }
 
-    static async sendReceipt (data: OrderModels, email: UserEmail): Promise<void> {
+    static async sendReceipt (data: OrderTypes, email: UserEmail): Promise<void> {
         const info = await this.transport.sendMail({
             from: `"Receipt Service" <${USER}>`,
             to: email,

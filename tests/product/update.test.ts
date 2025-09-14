@@ -1,5 +1,5 @@
 import { Item, Register } from "../util";
-import Product from "../../src/modules/product/models/product";
+import ProductModel from "../../src/modules/product/models/product.model";
 import supertest from "supertest";
 import web from "../../src/applications/web";
 import logger from "../../src/applications/logging";
@@ -18,7 +18,7 @@ describe('PATCH /api/products/:id', () => {
     });
 
     it('should update an existing product', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error('Test product not found');
 
         const result = await supertest(web)
@@ -59,7 +59,7 @@ describe('PATCH /api/products/:id', () => {
     });
 
     it('should reject update without auth token', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error('Test product not found');
 
         const result = await supertest(web)
@@ -78,7 +78,7 @@ describe('PATCH /api/products/:id', () => {
     });
 
     it('should reject update with invalid body', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error('Test product not found');
 
         const result = await supertest(web)

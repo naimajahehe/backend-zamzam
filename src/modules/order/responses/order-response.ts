@@ -1,13 +1,13 @@
 import type {
     ListOrderResponse,
     OrderIdResponse,
-    OrderModels,
+    OrderTypes,
     OrderResponse,
     ProductModel
-} from "../../../types/order-models";
+} from "../../../types/order.types";
 import type {Pageable} from "../../../types/page";
 
-export const getOrderResponse = (order: OrderModels): OrderResponse => {
+export const getOrderResponse = (order: OrderTypes): OrderResponse => {
     return {
         _id: order._id,
         user: order.user,
@@ -36,13 +36,13 @@ export const getOrderResponse = (order: OrderModels): OrderResponse => {
     }
 }
 
-export const orderIdResponse= (order: OrderModels): OrderIdResponse => {
+export const orderIdResponse= (order: OrderTypes): OrderIdResponse => {
     return {
         orderId: order._id
     }
 }
 
-export const listOrderResponse = (order: Array<OrderModels>, total: number, size: number, page: number): Pageable<ListOrderResponse> => {
+export const listOrderResponse = (order: Array<OrderTypes>, total: number, size: number, page: number): Pageable<ListOrderResponse> => {
     return {
         data: order.map(item => ({
             _id: item._id,

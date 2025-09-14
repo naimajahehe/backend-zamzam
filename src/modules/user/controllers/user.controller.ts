@@ -3,10 +3,10 @@ import type {
     UpdatePasswordUserRequest,
     UpdateUserRequest,
     UserResponse
-} from "../../../types/user-models";
-import type {ApiResponse} from "../../../types/common";
+} from "../../../types/user.types";
+import type {ApiResponse} from "../../../types/common.types";
 import {UserService} from "../services/user.service";
-import type {UserRequest} from "../../../types/user-models";
+import type {UserRequest} from "../../../types/user.types";
 
 export class UserController {
     static async get(req: UserRequest, res: Response<ApiResponse<UserResponse>>, next: NextFunction): Promise<Response | void> {

@@ -4,8 +4,8 @@ import type {
     AuthResetPasswordRequest,
     AuthResponse,
     AuthTokenResponse
-} from "../../../types/auth-models";
-import type {ApiResponse} from "../../../types/common";
+} from "../../../types/auth.types";
+import type {ApiResponse} from "../../../types/common.types";
 import type {NextFunction, Request, Response} from "express";
 import {AuthService} from "../services/auth.service";
 

@@ -2,7 +2,7 @@ import type {NextFunction, Request, Response} from "express";
 import {ZodError} from "zod";
 import {ResponseError} from "../errors/response-error";
 import {MongooseError} from "mongoose";
-import type {ApiResponse} from "../types/user-models";
+import type {ApiResponse} from "../types/user.types";
 import {JsonWebTokenError, TokenExpiredError} from "jsonwebtoken";
 
 export const errorMiddleware = (error: Error, req: Request, res: Response<ApiResponse<null>>, next: NextFunction): Response => {

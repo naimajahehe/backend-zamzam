@@ -1,7 +1,7 @@
 import type {Request} from "express";
 import {Types} from "mongoose";
 
-export interface IUser {
+export interface UserTypes {
     _id: Types.ObjectId;
     firstName: string;
     lastName: string;
@@ -13,10 +13,10 @@ export interface IUser {
     verificationCode: number | null;
 }
 
-export type UserResponse = Pick<IUser,
+export type UserResponse = Pick<UserTypes,
     'email' | 'username' | 'firstName' | 'lastName' | 'gender' >
 
-export type UpdateUserRequest = Partial<Pick<IUser,
+export type UpdateUserRequest = Partial<Pick<UserTypes,
     'firstName' | 'lastName' | 'email' | 'username'>>;
 
 export interface UserRequest extends Request {

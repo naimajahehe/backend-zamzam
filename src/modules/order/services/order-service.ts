@@ -4,12 +4,12 @@ import type {
     OrderIdResponse, OrderProducts,
     OrderResponse,
     ScanBarcode, UpdateOrderRequest,
-} from "../../../types/order-models";
+} from "../../../types/order.types";
 import {Validation} from "../../../validations/validation";
 import {OrderValidation} from "../validations/order-validation";
-import Product from "../../product/models/product";
+import ProductModel from "../../product/models/product.model";
 import {ResponseError} from "../../../errors/response-error";
-import type {GetUserRequestId} from "../../../types/user-models";
+import type {GetUserRequestId} from "../../../types/user.types";
 import Order from "../models/order";
 import {UserValidation} from "../../user/validations/user.validation";
 import {AuthService} from "../../auth/services/auth.service";
@@ -29,7 +29,7 @@ export class OrderService {
         const validateUserId: GetUserRequestId = Validation.validate(UserValidation.ID, id);
 
         const user = await AuthService.getUserById(validateUserId);
-        const findProduct = await Product.findOne({
+        const findProduct = await ProductModel.findOne({
             barcode: validateBarcode
         });
         if ( !findProduct )
@@ -74,7 +74,7 @@ export class OrderService {
         const validateBarcode: ScanBarcode = Validation.validate(OrderValidation.BARCODE, barcode);
         const validateOrderId: OrderId = Validation.validate(OrderValidation.ORDER_ID, id);
 
-        const product = await Product.findOne({barcode: validateBarcode});
+        const product = await ProductModel.findOne({barcode: validateBarcode});
         if (!product) throw new ResponseError(404, 'Product not found');
         if (product.stock === 0) throw new ResponseError(400, 'Not enough stock');
 
@@ -122,7 +122,7 @@ export class OrderService {
 
         let totalPrice: number = 0;
         for (let updatedProduct of validateOrder.products as Array<OrderProducts>) {
-            const findProduct = await Product.findById(updatedProduct.product);
+            const findProduct = await ProductModel.findById(updatedProduct.product);
             if (!findProduct) throw new ResponseError(404, 'Product not found');
 
             for (let orderProducts of order.products as Array<OrderProducts>) {
@@ -163,7 +163,7 @@ export class OrderService {
         if (order.orderStatus === 'canceled') throw new ResponseError(400, 'Product was already canceled');
 
         for (let orderProducts of order.products as Array<OrderProducts>) {
-            const product = await Product.findById(orderProducts.product);
+            const product = await ProductModel.findById(orderProducts.product);
             if (!product) throw new ResponseError(404, 'Product not found');
 
             product.stock += orderProducts.quantity;
@@ -199,7 +199,7 @@ export class OrderService {
         if (!order) throw new ResponseError(404, 'Order not found');
 
         for (let productsOrder of order.products as Array<OrderProducts>) {
-            const product = await Product.findById(productsOrder.product);
+            const product = await ProductModel.findById(productsOrder.product);
             if (!product) throw new ResponseError(404, 'Product not found');
 
             product.stock += productsOrder.quantity;

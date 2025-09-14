@@ -1,4 +1,4 @@
-import type {ApiResponse, GetUserRequestId, UserEmail, UserRequest} from "../../../types/user-models";
+import type {ApiResponse, GetUserRequestId, UserEmail, UserRequest} from "../../../types/user.types";
 import type {Request, Response, NextFunction} from "express";
 import type {
     ListOrderRequest,
@@ -8,7 +8,7 @@ import type {
     OrderResponse,
     ScanBarcode,
     UpdateOrderRequest
-} from "../../../types/order-models";
+} from "../../../types/order.types";
 import {OrderService} from "../services/order-service";
 import type {Pageable} from "../../../types/page";
 

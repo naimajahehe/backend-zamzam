@@ -1,11 +1,11 @@
 import type {Request, Response, NextFunction } from "express";
-import type {ApiResponse, GetUserRequestId, UserRequest} from "../../../types/user-models";
+import type {ApiResponse, GetUserRequestId, UserRequest} from "../../../types/user.types";
 import type {
     CreateProductRequest,
     ListProductRequest,
     ProductResponse,
     UpdateProductRequest
-} from "../../../types/product-models";
+} from "../../../types/product.types";
 import { ProductService } from "../services/product-service";
 import type {Pageable} from "../../../types/page";
 

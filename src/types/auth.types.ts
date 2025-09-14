@@ -1,4 +1,4 @@
-import type {IUser} from "./user-models";
+import type {IUser} from "./user.types";
 
 export type AuthRegisterRequest = Pick<IUser,
     'firstName' | 'lastName' | 'email' | 'username' | 'password' | 'gender'> & {

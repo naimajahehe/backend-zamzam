@@ -1,6 +1,6 @@
-import type {IUser, UserResponse} from "../../../types/user-models";
+import type {UserTypes, UserResponse} from "../../../types/user.types";
 
-export const userResponse = (user: IUser): UserResponse  => ({
+export const userResponse = (user: UserTypes): UserResponse  => ({
     email: user.email,
     username: user.username,
     firstName: user.firstName,

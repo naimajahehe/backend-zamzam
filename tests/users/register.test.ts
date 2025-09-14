@@ -1,21 +1,21 @@
 import supertest from 'supertest';
 import web from "../../src/applications/web";
 import {Register} from "../util";
-import User from "../../src/modules/user/models/user";
+import UserModel from "../../src/modules/user/models/user.model";
 import logger from "../../src/applications/logging";
 
-describe('POST /api/users', () => {
+describe('POST /api/auth/register', () => {
     afterEach(async () => {
         await Register.remove();
     })
     it('should can register', async () => {
         const result = await supertest(web)
-            .post('/api/users')
+            .post('/api/auth/register')
             .send({
                 firstName: 'Muhammad',
                 lastName: 'Naim',
                 email: 'naimmnaim123@gmail.com',
-                username: 'naimmnai12',
+                username: 'naimmnaim123',
                 password: 'asdfzxcv123',
                 confirmPassword: 'asdfzxcv123',
                 gender: 'female',
@@ -28,7 +28,7 @@ describe('POST /api/users', () => {
 
     it('should reject if field is empty', async () => {
         const result = await supertest(web)
-            .post('/api/users')
+            .post('/api/auth/register')
             .send({
                 firstName: '',
                 lastName: '',
@@ -38,7 +38,7 @@ describe('POST /api/users', () => {
                 confirmPassword: '',
                 gender: '',
             })
-        logger.info(result.body);
+        console.log(result.body);
         expect(result.status).toBe(400);
         expect(result.body.success).toBeFalsy();
         expect(result.body.errors).toBeDefined();
@@ -46,10 +46,11 @@ describe('POST /api/users', () => {
         expect(result.body.errors).toContain('lastName: minimal 3 karakter');
         expect(result.body.errors).toContain('password: minimal 6 karakter');
         expect(result.body.errors).toContain('confirmPassword: minimal 6 karakter');
+        expect(result.body.errors).toContain('gender: gender male atau female saja')
     });
 
     it('should reject if there is same username', async () => {
-        await User.insertOne({
+        await UserModel.insertOne({
             firstName: 'Muhammad',
             lastName: 'Naim',
             username: 'naimmnaim123',
@@ -59,7 +60,7 @@ describe('POST /api/users', () => {
             gender: 'male',
         })
         const result = await supertest(web)
-            .post('/api/users')
+            .post('/api/auth/register')
             .send({
                 firstName: 'Muhammad',
                 lastName: 'Naim',
@@ -69,7 +70,7 @@ describe('POST /api/users', () => {
                 confirmPassword: 'asdfzxcv123',
                 gender: 'male',
             })
-        logger.info(result.body);
+        console.log(result.body);
         expect(result.status).toBe(400);
         expect(result.body.success).toBeFalsy();
         expect(result.body.errors).not.toBeNull();

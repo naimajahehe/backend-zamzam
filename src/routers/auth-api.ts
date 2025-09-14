@@ -1,6 +1,5 @@
 import express from "express";
 import {authMiddleware} from "../middlewares/auth-middleware";
-import {UserController} from "../modules/user/controllers/user.controller";
 import {ProductControllers} from "../modules/product/controllers/product-controllers";
 import {OrderController} from "../modules/order/controllers/order-controller";
 

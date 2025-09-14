@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import 'dotenv/config'
 import {ResponseError} from "../errors/response-error";
-import type {TokenPayload} from "../types/common";
+import type {TokenPayload} from "../types/common.types";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRES_IN = '1d';

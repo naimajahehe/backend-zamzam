@@ -1,6 +1,7 @@
 import mongoose from "../../../../mongoose/config";
+import type {ProductTypes} from "../../../types/product.types";
 
-const productSchema = new mongoose.Schema({
+const productSchema = new mongoose.Schema<ProductTypes>({
     name: {
         type: String,
         required: true
@@ -16,7 +17,7 @@ const productSchema = new mongoose.Schema({
     stock: {
         type: Number,
         required: true,
-        default: 0
+        default: 1
     },
     barcode: {
         type: String,
@@ -41,6 +42,6 @@ productSchema.index({ name: 1 });
 productSchema.index({ brand: 1 });
 productSchema.index({ name: 'text', brand: 'text' });
 
-const Product = mongoose.model('Product', productSchema);
+const ProductModel = mongoose.model('Product', productSchema);
 
-export default Product;
+export default ProductModel;

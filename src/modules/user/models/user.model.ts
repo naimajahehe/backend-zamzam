@@ -1,7 +1,7 @@
 import mongoose from '../../../../mongoose/config';
-import type {IUser} from "../../../types/user-models";
+import type {UserTypes} from "../../../types/user.types";
 
-const userSchema = new mongoose.Schema<IUser>({
+const userSchema = new mongoose.Schema<UserTypes>({
     firstName: {
         type: String,
         required: true
@@ -42,6 +42,6 @@ const userSchema = new mongoose.Schema<IUser>({
 userSchema.index({ email: 1 }, { unique: true });
 userSchema.index({ username: 1 }, { unique: true });
 
-const User = mongoose.model("User",userSchema);
+const UserModel = mongoose.model("User",userSchema);
 
-export default User;
+export default UserModel;

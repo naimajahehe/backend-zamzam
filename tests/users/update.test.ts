@@ -3,7 +3,7 @@ import supertest from "supertest";
 import web from "../../src/applications/web";
 import logger from "../../src/applications/logging";
 
-describe('PATCH /api/users', () => {
+describe('PATCH /api/users/update', () => {
     let token: string
     beforeEach(async () => {
         await Register.add();
@@ -14,7 +14,7 @@ describe('PATCH /api/users', () => {
     })
     it('should can update user', async () => {
         const result = await supertest(web)
-            .patch('/api/users')
+            .patch('/api/users/update')
             .set('X-API-TOKEN', token)
             .send({
                 firstName: 'Muhammad',
@@ -30,7 +30,7 @@ describe('PATCH /api/users', () => {
 
     it('should reject if empty field', async () => {
         const result = await supertest(web)
-            .patch('/api/users')
+            .patch('/api/users/update')
             .set('X-API-TOKEN', token)
             .send({
                 firstName: '',
@@ -45,7 +45,7 @@ describe('PATCH /api/users', () => {
 
     it('should reject if invalid token', async () => {
         const result = await supertest(web)
-            .patch('/api/users')
+            .patch('/api/users/update')
             .set('X-API-TOKEN', 'naimmna123')
             .send({
                 firstName: 'Muhammad',
@@ -61,7 +61,7 @@ describe('PATCH /api/users', () => {
 
     it('should reject if empty token', async () => {
         const result = await supertest(web)
-            .patch('/api/users')
+            .patch('/api/users/update')
             .send({
                 firstName: 'Muhammad',
                 lastName: 'Naim',

@@ -1,5 +1,5 @@
 import {z, ZodType} from "zod";
-import {productFields} from "../../../validations/fields";
+import {fields, productFields} from "../../../validations/fields";
 
 export class ProductValidation {
     static readonly CREATE: ZodType = z.object({
@@ -10,7 +10,7 @@ export class ProductValidation {
         barcode: productFields.barcode,
     });
 
-    static readonly GET: ZodType = productFields.id;
+    static readonly ID: ZodType = fields.id;
 
     static readonly UPDATE: ZodType = z.object({
         name: productFields.name,
@@ -20,8 +20,7 @@ export class ProductValidation {
     });
 
     static readonly LIST: ZodType = z.object({
-        name: productFields.optionalName,
-        brand: productFields.optionalBrand,
+        search: productFields.optionalName,
         page: productFields.page,
         size: productFields.size
     })

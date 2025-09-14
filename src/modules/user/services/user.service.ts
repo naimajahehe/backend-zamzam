@@ -2,10 +2,10 @@ import type {
     UpdatePasswordUserRequest,
     UpdateUserRequest,
     UserResponse
-} from "../../../types/user-models";
+} from "../../../types/user.types";
 import { Validation } from "../../../validations/validation";
 import { UserValidation } from "../validations/user.validation";
-import User from "../models/user";
+import UserModel from "../models/user.model";
 import { ResponseError } from "../../../errors/response-error";
 import bcrypt from 'bcrypt';
 import {userResponse } from "../responses/user.response";
@@ -15,7 +15,7 @@ import {Nodemailer} from "../../../utils/nodemailer";
 
 export class UserService {
     static async getUserById(id: string) {
-        const user = await User.findById(id);
+        const user = await UserModel.findById(id);
         if (!user) throw new ResponseError(404, 'User not found');
         return user;
     };
@@ -32,14 +32,14 @@ export class UserService {
         const userId: string = Validation.validate(UserValidation.ID, id);
         const updateUser = await this.getUserById(userId);
         if (updateRequest.email && updateRequest.email !== updateUser.email) {
-            const emailIsExists = await User.findOne({ email: updateRequest.email });
+            const emailIsExists = await UserModel.findOne({ email: updateRequest.email });
             if (emailIsExists) {
                 throw new ResponseError(400, 'Email is already in use');
             }
         }
 
         if (updateRequest.username && updateRequest.username !== updateUser.username) {
-            const usernameIsExists = await User.findOne({ username: updateRequest.username });
+            const usernameIsExists = await UserModel.findOne({ username: updateRequest.username });
             if (usernameIsExists) {
                 throw new ResponseError(400, 'Username is already in use');
             }

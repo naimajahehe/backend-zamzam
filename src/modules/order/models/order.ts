@@ -1,7 +1,7 @@
 import mongoose from "../../../../mongoose/config";
-import type {OrderModels} from "../../../types/order-models";
+import type {OrderTypes} from "../../../types/order.types";
 
-const orderSchema = new mongoose.Schema<OrderModels>({
+const orderSchema = new mongoose.Schema<OrderTypes>({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

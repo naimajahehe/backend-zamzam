@@ -1,6 +1,6 @@
 import {Types} from "mongoose";
 
-export interface OrderModels {
+export interface OrderTypes {
     _id: Types.ObjectId;
     user: Types.ObjectId;
     products: Array<OrderProducts>;
@@ -42,12 +42,12 @@ export interface OrderProductResponse {
     price: number;
 }
 
-export type OrderResponse = Omit<OrderModels, 'createdAt' | 'updatedAt'> & {
+export type OrderResponse = Omit<OrderTypes, 'createdAt' | 'updatedAt'> & {
     products: Array<OrderProductResponse>;
     links?: OrderLinksModels;
 }
 
-export type UpdateOrderRequest = Pick<OrderModels, 'paymentMethod' | 'paymentStatus' > & {
+export type UpdateOrderRequest = Pick<OrderTypes, 'paymentMethod' | 'paymentStatus' > & {
     products: Array<OrderProducts>
 };
 
@@ -57,7 +57,7 @@ export type ListOrderRequest = {
     size: number;
 }
 
-export type ListOrderResponse = Pick<OrderModels, '_id' | 'user' | 'totalPrice' | 'paymentStatus' | 'orderStatus' | 'products'> & {
+export type ListOrderResponse = Pick<OrderTypes, '_id' | 'user' | 'totalPrice' | 'paymentStatus' | 'orderStatus' | 'products'> & {
     links: OrderLinksModels;
 }
 

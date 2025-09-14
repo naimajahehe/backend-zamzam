@@ -3,7 +3,7 @@ import supertest from "supertest";
 import web from "../../src/applications/web";
 import logger from "../../src/applications/logging";
 
-describe('GET /api/users', () => {
+describe('GET /api/users/recent', () => {
     let token: string
     beforeEach(async () => {
         await Register.add();
@@ -14,7 +14,7 @@ describe('GET /api/users', () => {
     })
     it('should can get user data', async () => {
         const result = await supertest(web)
-            .get('/api/users')
+            .get('/api/users/recent')
             .set('X-API-TOKEN', token)
         console.log(result.body)
         expect(result.status).toBe(200);
@@ -33,7 +33,7 @@ describe('GET /api/users', () => {
 
     it('should reject if unvalid token', async () => {
         const result = await supertest(web)
-            .get('/api/users')
+            .get('/api/users/recent')
             .set('X-API-TOKEN', 'naimmnai3123')
         logger.info(result.body);
         expect(result.status).toBe(401);
@@ -44,7 +44,7 @@ describe('GET /api/users', () => {
     it('should respond in less than 500ms', async () => {
         const start = Date.now();
         const result = await supertest(web)
-            .get('/api/users')
+            .get('/api/users/recent')
             .set('X-API-TOKEN', token);
         const duration = Date.now() - start;
 
@@ -54,7 +54,7 @@ describe('GET /api/users', () => {
 
     it('should reject if token header key is wrong', async () => {
         const result = await supertest(web)
-            .get('/api/users')
+            .get('/api/users/recent')
             .set('Authorization', 'Bearer naimmnaim123');
 
         expect(result.status).toBe(401);

@@ -1,5 +1,5 @@
 import { Item, Register } from "../util";
-import Product from "../../src/modules/product/models/product";
+import ProductModel from "../../src/modules/product/models/product.model";
 import supertest from "supertest";
 import web from "../../src/applications/web";
 
@@ -17,7 +17,7 @@ describe('DELETE /api/products/:id', () => {
     });
 
     it('should delete an existing product', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error('Test product not found');
 
         const result = await supertest(web)
@@ -31,7 +31,7 @@ describe('DELETE /api/products/:id', () => {
         expect(result.body.data.id).toBe(product._id.toString());
         expect(result.body.message).toBe('Product deleted successfully');
 
-        const check = await Product.findById(product._id);
+        const check = await ProductModel.findById(product._id);
         expect(check).toBeNull();
     });
 
@@ -48,7 +48,7 @@ describe('DELETE /api/products/:id', () => {
     });
 
     it('should reject deletion without auth token', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error('Test product not found');
 
         const result = await supertest(web)

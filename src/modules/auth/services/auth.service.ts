@@ -4,10 +4,10 @@ import type {
     AuthResetPasswordRequest,
     AuthResponse,
     AuthTokenResponse
-} from "../../../types/auth-models";
-import type {TokenPayload} from "../../../types/common";
+} from "../../../types/auth.types";
+import type {TokenPayload} from "../../../types/common.types";
 import {Validation} from "../../../validations/validation";
-import User from "../../user/models/user";
+import UserModel from "../../user/models/user.model";
 import {ResponseError} from "../../../errors/response-error";
 import {Nodemailer} from "../../../utils/nodemailer";
 import {JWT} from "../../../utils/jwt";
@@ -19,14 +19,14 @@ import {AuthValidation} from "../validations/auth.validation";
 export class AuthService {
     static async register(request: AuthRegisterRequest): Promise<AuthResponse> {
         const registerRequest: AuthRegisterRequest = Validation.validate(AuthValidation.REGISTER, request);
-        const registerUser = await User.findOne({
+        const registerUser = await UserModel.findOne({
             $or: [{ username: registerRequest.username }, { email: registerRequest.email }]
         });
         if (registerUser) throw new ResponseError(400, 'Username or email already exists');
 
         const hashedPassword = await bcrypt.hash(registerRequest.password, 10);
         const { confirmPassword, ...data } = registerRequest;
-        const user = new User({
+        const user = new UserModel({
             ...data,
             password: hashedPassword,
         });
@@ -39,7 +39,7 @@ export class AuthService {
 
     static async login(request: AuthLoginRequest): Promise<AuthResponse> {
         const loginRequest: AuthLoginRequest = Validation.validate(AuthValidation.LOGIN, request);
-        const user = await User.findOne({
+        const user = await UserModel.findOne({
             username: loginRequest.username
         });
         if (!user) throw new ResponseError(400, 'Incorrect username or password');
@@ -55,7 +55,7 @@ export class AuthService {
     static async verifyEmail(token: string): Promise<void> {
         const tokenRequest: string = Validation.validate(AuthValidation.TOKEN, token);
         const decoded: TokenPayload = JWT.verify(tokenRequest);
-        const user = await User.findById(new Types.ObjectId(decoded.id));
+        const user = await UserModel.findById(new Types.ObjectId(decoded.id));
         if (!user) throw new ResponseError(404, 'User not found');
 
         if (user.isVerified) {
@@ -68,7 +68,7 @@ export class AuthService {
 
     static async forgotPassword(email: string): Promise<number> {
         const validateEmail: string = Validation.validate(AuthValidation.EMAIL, email);
-        const user = await User.findOne({ email: validateEmail });
+        const user = await UserModel.findOne({ email: validateEmail });
         if (!user) throw new ResponseError(404, 'Email not found');
 
         user.verificationCode = await Nodemailer.sendVerificationCode(user.email);
@@ -80,7 +80,7 @@ export class AuthService {
         const validateCode = Validation.validate(AuthValidation.VERIFICATION_CODE, code);
         const validateEmail = Validation.validate(AuthValidation.EMAIL, email);
 
-        const user = await User.findOne({email: validateEmail});
+        const user = await UserModel.findOne({email: validateEmail});
         if (!user) throw new ResponseError(404, 'Email not found');
 
         if (!user.verificationCode) throw new ResponseError(400, 'Verification code has not been sent');
@@ -101,7 +101,7 @@ export class AuthService {
         const validateToken: string = Validation.validate(AuthValidation.TOKEN, token);
 
         const decoded: TokenPayload = JWT.verify(validateToken);
-        const user = await User.findById(new Types.ObjectId(decoded.id));
+        const user = await UserModel.findById(new Types.ObjectId(decoded.id));
         if (!user) throw new ResponseError(404, 'User not found');
 
         const isSame = await bcrypt.compare(requestPassword.password, user.password);

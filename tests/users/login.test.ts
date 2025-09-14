@@ -3,7 +3,7 @@ import supertest from "supertest";
 import web from "../../src/applications/web";
 import logger from "../../src/applications/logging";
 
-describe('POST /api/users/login', () => {
+describe('POST /api/auth/login', () => {
     afterEach(async () => {
         await Register.remove();
     })
@@ -12,7 +12,7 @@ describe('POST /api/users/login', () => {
     })
     it('should can login', async () => {
         const result = await supertest(web)
-            .post('/api/users/login')
+            .post('/api/auth/login')
             .send({
                 username: 'naimmnaim123',
                 password: 'asdfzxcv123'
@@ -24,7 +24,7 @@ describe('POST /api/users/login', () => {
     });
     it('should reject if username is wrong', async () => {
         const result = await supertest(web)
-            .post('/api/users/login')
+            .post('/api/auth/login')
             .send({
                 username: 'naimmnaim1',
                 password: 'asdfzxcv123'
@@ -36,7 +36,7 @@ describe('POST /api/users/login', () => {
     });
     it('should reject if password is wrong', async () => {
         const result = await supertest(web)
-            .post('/api/users/login')
+            .post('/api/auth/login')
             .send({
                 username: 'naimmnaim123',
                 password: 'asdfzxcv1'

@@ -1,5 +1,5 @@
 import { Item, Register } from "../util";
-import Product from "../../src/modules/product/models/product";
+import ProductModel from "../../src/modules/product/models/product.model";
 import supertest from "supertest";
 import web from "../../src/applications/web";
 
@@ -17,7 +17,7 @@ describe('GET /api/products/:id', () => {
     });
 
     it('should can get item', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error("Test product not found");
 
         const result = await supertest(web)
@@ -31,7 +31,7 @@ describe('GET /api/products/:id', () => {
     });
 
     it('should reject if id is invalid', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error("Test product not found");
 
         const result = await supertest(web)
@@ -44,7 +44,7 @@ describe('GET /api/products/:id', () => {
     });
 
     it('should reject if token is invalid', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error("Test product not found");
 
         const result = await supertest(web)
@@ -58,7 +58,7 @@ describe('GET /api/products/:id', () => {
     });
 
     it('should reject if token is empty', async () => {
-        const product = await Product.findOne({ stock: 2 });
+        const product = await ProductModel.findOne({ stock: 2 });
         if (!product) throw new Error("Test product not found");
 
         const result = await supertest(web)
