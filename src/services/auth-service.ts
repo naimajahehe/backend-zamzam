@@ -55,9 +55,9 @@ export class AuthService {
         return user.verificationCode;
     }
 
-    static async verificationCode(request: VerifyCodeUserRequest): Promise<AuthTokenResponse> {
-        const validateCode = Validation.validate(UserValidation.VERIFICATION_CODE, request.verificationCode);
-        const validateEmail = Validation.validate(UserValidation.EMAIL, request.email);
+    static async verificationCode(code: VerifyCodeUserRequest, email: UserEmail): Promise<AuthTokenResponse> {
+        const validateCode = Validation.validate(UserValidation.VERIFICATION_CODE, code);
+        const validateEmail = Validation.validate(UserValidation.EMAIL, email);
 
         const user = await User.findOne({email: validateEmail});
         if (!user) throw new ResponseError(404, 'Email not found');

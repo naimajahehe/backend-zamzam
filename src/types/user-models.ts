@@ -53,7 +53,7 @@ export interface ApiResponse<T> {
     message: string;
     data: T | null;
     errors: string | string[] | null;
-    paging?: Paging
+    paging?: Paging;
 }
 
 export interface IUserDocument extends Document {
@@ -65,7 +65,10 @@ export interface IUserDocument extends Document {
 }
 
 export interface UserRequest extends Request {
-    user?: { _id: Types.ObjectId }
+    user?: {
+        _id: Types.ObjectId,
+        email: string
+    }
 }
 
 export interface UpdatePasswordUserRequest {
@@ -83,11 +86,8 @@ export interface ResetPasswordUserRequest {
     confirmPassword: string;
 }
 
-export interface VerifyCodeUserRequest {
-    verificationCode: number,
-    email: string
-}
-
 export interface AuthTokenResponse {
     resetToken: AuthToken
 }
+
+export type VerifyCodeUserRequest = number;

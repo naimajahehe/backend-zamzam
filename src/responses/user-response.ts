@@ -8,7 +8,7 @@ export const userResponse = (user: IUserDocument): UserResponse  => ({
     lastName: user.lastName
 });
 
-export const authUserResponse = (user: IUserDocument, token: string): UserResponse => ({
+export const    authUserResponse = (user: IUserDocument, token: string): UserResponse => ({
     ...userResponse(user),
     token
 });

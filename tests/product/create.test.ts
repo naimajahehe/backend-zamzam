@@ -23,7 +23,7 @@ describe('POST /api/products', () => {
                 stock: 1,
                 barcode: '12341234'
             })
-        console.log(result.body.data)
+        console.log(result.body)
         expect(result.status).toBe(201);
         expect(result.body.message).toBe('Product created successfully');
         expect(result.body.errors).toBeNull();

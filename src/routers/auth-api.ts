@@ -16,12 +16,8 @@ apiRouter.post('/api/users/send-verify-email', UserControllers.sendVerifyEmail);
 
 //products
 apiRouter.get('/api/products', ProductControllers.list);
-apiRouter.post('/api/products', ProductControllers.create);
 apiRouter.get('/api/products/:id', ProductControllers.get);
-apiRouter.patch('/api/products/:id', ProductControllers.update);
-apiRouter.delete('/api/products/:id', ProductControllers.delete);
 
 //orders
-apiRouter.post('/api/orders', OrderControllers.createOrder);
-apiRouter.patch('/api/orders/:id', OrderControllers.updateOrder);
 apiRouter.get('/api/orders/:id', OrderControllers.getOrder);
+apiRouter.get('/api/orders', OrderControllers.listOrder);

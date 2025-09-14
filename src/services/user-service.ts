@@ -71,7 +71,7 @@ export class UserService {
         if (updateRequest.username && updateRequest.username !== updateUser.username) {
             const usernameIsExists = await User.findOne({ username: updateRequest.username });
             if (usernameIsExists) {
-                throw new ResponseError(400, 'Email is already in use');
+                throw new ResponseError(400, 'Username is already in use');
             }
         }
 

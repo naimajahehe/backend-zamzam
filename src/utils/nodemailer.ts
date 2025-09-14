@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { customAlphabet } from 'nanoid';
 import {ResponseError} from "../errors/response-error";
 import type {AuthToken, UserEmail} from "../types/user-models";
+import type {OrderModels, ProductModel} from "../types/order-models";
 
 const USER = process.env.SMTP_USER as string;
 const HOST = process.env.SMTP_HOST as string;
@@ -21,7 +22,7 @@ export class Nodemailer {
         }
     });
 
-    static sendVerifyEmail = async (token: AuthToken, email: UserEmail) => {
+    static async sendVerifyEmail (token: AuthToken, email: UserEmail) {
         const verifyUrl = `${APP_URL}/api/users/verify-email?token=${token}`;
         const info = await this.transport.sendMail({
             from: `"Support" <${USER}>`,
@@ -33,7 +34,7 @@ export class Nodemailer {
         return info.accepted
     };
 
-    static sendVerificationCode = async (email: UserEmail): Promise<number> => {
+    static async sendVerificationCode (email: UserEmail): Promise<number> {
         const code = customAlphabet('123456789', 6)();
         const info = await this.transport.sendMail({
             from: `"Support" <${USER}>`,
@@ -42,7 +43,32 @@ export class Nodemailer {
             text: `Your verification code is: ${code}`,
             html: `<p>Your verification code is: <h1>${code}</h1></p>`
         })
-        if (!info.accepted || info.accepted.length === 0) throw new ResponseError(400, 'Failed to send verification code');
+        if (!info.accepted || info.accepted.length === 0)
+            throw new ResponseError(400, 'Failed to send verification code');
+
         return Number(code);
+    }
+
+    static async sendReceipt (data: OrderModels, email: UserEmail): Promise<void> {
+        const info = await this.transport.sendMail({
+            from: `"Receipt Service" <${USER}>`,
+            to: email,
+            subject: `Payment Receipt - Order #${data._id}`,
+            text: `Thank you for your purchase!\n\nOrder ID: ${data._id}\nTotal: Rp ${data.products.toLocaleString()}`,
+            html: `
+              <h2>Order Details</h2>
+              <ul>
+                ${data.products.map((item, index) => `
+                      <li>
+                        ${index + 1}. Product <b>${(item.product as ProductModel).name} ${(item.product as ProductModel).brand}</b> 
+                        - Rp ${item.price.toLocaleString()} x ${item.quantity}
+                      </li>
+                    `).join("")}
+              </ul>
+              <p><b>Total:</b> Rp ${data.totalPrice.toLocaleString()}</p>
+            `
+        })
+        if (!info.accepted || info.accepted.length === 0)
+            throw new ResponseError(400, 'Failed to send payment receipt');
     }
 }

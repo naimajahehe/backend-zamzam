@@ -44,7 +44,7 @@ export class UserControllers {
     static async get(req: UserRequest, res: Response<ApiResponse<UserResponse>>, next: NextFunction): Promise<Response | void> {
         try {
             const id: GetUserRequestId = req.user!._id;
-            const response = await UserService.get(id);
+            const response: UserResponse = await UserService.get(id);
             return res.status(200).json({
                 success: true,
                 message: 'Get user data successfully',
@@ -148,8 +148,9 @@ export class UserControllers {
 
     static async verifyCode(req: Request, res:Response<ApiResponse<AuthTokenResponse>>, next: NextFunction): Promise<Response | void> {
         try {
-            const request = req.body as VerifyCodeUserRequest;
-            const response: AuthTokenResponse = await AuthService.verificationCode(request);
+            const { verificationCode } = req.body as { verificationCode: VerifyCodeUserRequest };
+            const { email } = req.query as { email: UserEmail };
+            const response: AuthTokenResponse = await AuthService.verificationCode(verificationCode, email);
             return res.status(200).json({
                 success: true,
                 message: 'Verification code successfully',

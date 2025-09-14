@@ -35,10 +35,6 @@ export class ProductService {
     }
 
     static async get(id: GetProductRequestId): Promise<ProductResponse> {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw new ResponseError(404, 'Product not found');
-        }
-
         const productRequestId: GetProductRequestId = Validation.validate(ProductValidation.GET, id);
 
         const productItem = await Product.findById(productRequestId);
@@ -50,10 +46,6 @@ export class ProductService {
     }
 
     static async update(request: UpdateProductRequest, id: GetProductRequestId): Promise<ProductResponse> {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw new ResponseError(404, 'Product not found');
-        }
-
         const productRequest: UpdateProductRequest = Validation.validate(ProductValidation.UPDATE, request);
         const productId: GetProductRequestId = Validation.validate(ProductValidation.GET, id);
 
@@ -72,9 +64,6 @@ export class ProductService {
     }
 
     static async delete(id: GetProductRequestId): Promise<ProductResponse> {
-        if(!mongoose.Types.ObjectId.isValid(id)){
-            throw new ResponseError(404, 'Product not found');
-        }
         const deleteId: GetProductRequestId = Validation.validate(ProductValidation.GET, id);
         const deleteProduct = await Product.findByIdAndDelete(deleteId)
 

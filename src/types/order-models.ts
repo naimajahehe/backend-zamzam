@@ -1,9 +1,9 @@
-import { Types } from "mongoose";
+import {Types} from "mongoose";
 
 export interface OrderModels {
     _id: Types.ObjectId;
     user: Types.ObjectId;
-    products: OrderProducts;
+    products: Array<OrderProducts>;
     paymentMethod: "cash" | "transfer" | "e-wallet";
     paymentStatus: "paid" | "unpaid";
     paymentDate: Date | null;
@@ -15,7 +15,7 @@ export interface OrderModels {
 }
 
 export interface OrderProducts {
-    product: ProductModel;
+    product: Types.ObjectId | ProductModel;
     quantity: number;
     price: number;
 }
@@ -29,14 +29,43 @@ export interface ProductModel {
     stock: number;
 }
 
-export type ScanBarcode = string;
+export interface OrderLinksModels {
+    cancelOrder?: string;
+    updateOrder?: string;
+    deleteOrder?: string;
+    getOrder?: string;
+}
 
-export type OrderResponse = Omit<OrderModels, 'createdAt' | 'updatedAt'>
+export interface OrderProductResponse {
+    product: ProductModel;
+    quantity: number;
+    price: number;
+}
+
+export type OrderResponse = Omit<OrderModels, 'createdAt' | 'updatedAt'> & {
+    products: Array<OrderProductResponse>;
+    links?: OrderLinksModels;
+}
 
 export type UpdateOrderRequest = Pick<OrderModels, 'paymentMethod' | 'paymentStatus' > & {
-    quantity: number;
+    products: Array<OrderProducts>
 };
 
+export type ListOrderRequest = {
+    search?: string;
+    page: number;
+    size: number;
+}
+
+export type ListOrderResponse = Pick<OrderModels, '_id' | 'user' | 'totalPrice' | 'paymentStatus' | 'orderStatus' | 'products'> & {
+    links: OrderLinksModels;
+}
+
+export type OrderIdResponse = {
+    orderId: string | Types.ObjectId;
+}
+
 export type OrderId = string;
+export type ScanBarcode = string;
 
 

@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema<OrderModels>({
         ref: 'User',
         required: true
     },
-    products:{
+    products:[{
         product: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Product',
@@ -22,7 +22,7 @@ const orderSchema = new mongoose.Schema<OrderModels>({
             type: Number,
             required: true
         }
-    },
+    }],
     paymentMethod: {
         type: String,
         enum: ['cash', 'transfer', 'e-wallet'],

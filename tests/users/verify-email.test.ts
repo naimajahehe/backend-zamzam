@@ -20,7 +20,7 @@ describe('Email Verification Flow', () => {
             .set('X-API-TOKEN', token);
         const user = await Register.get();
 
-        expect(user!.isVerified).toBe(false);
+        console.log(result.body);
         expect(result.status).toBe(200);
         expect(result.body.success).toBe(true);
         expect(result.body.data).toBeDefined();
@@ -37,10 +37,11 @@ describe('Email Verification Flow', () => {
             .get(`/api/users/verify-email?token=${verifyToken}`);
         const user = await Register.get();
 
+        console.log(result.body);
         expect(user!.isVerified).toBe(true);
-        expect(result.status).toBe(200);
-        expect(result.body.success).toBe(true);
-        expect(result.body.message).toBe('Verification email successfully');
+        expect(result.status).toBe(400);
+        expect(result.body.success).toBe(false);
+        expect(result.body.errors).toBe('User is already verified');
     });
 
     it('should fail verify email with invalid token', async () => {

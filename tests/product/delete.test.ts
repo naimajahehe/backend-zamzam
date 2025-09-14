@@ -17,7 +17,7 @@ describe('DELETE /api/products/:id', () => {
     });
 
     it('should delete an existing product', async () => {
-        const product = await Product.findOne({ stock: 1 });
+        const product = await Product.findOne({ stock: 2 });
         if (!product) throw new Error('Test product not found');
 
         const result = await supertest(web)
@@ -40,14 +40,15 @@ describe('DELETE /api/products/:id', () => {
             .delete('/api/products/invalidId123')
             .set('X-API-TOKEN', token);
 
-        expect(result.status).toBe(404);
+        console.log(result.body);
+        expect(result.status).toBe(400);
         expect(result.body.success).toBeFalsy();
         expect(result.body.data).toBeNull();
-        expect(result.body.errors).toBe('Product not found');
+        expect(result.body.errors).toContain(': id tidak valid');
     });
 
     it('should reject deletion without auth token', async () => {
-        const product = await Product.findOne({ stock: 1 });
+        const product = await Product.findOne({ stock: 2 });
         if (!product) throw new Error('Test product not found');
 
         const result = await supertest(web)

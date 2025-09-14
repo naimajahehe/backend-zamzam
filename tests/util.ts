@@ -15,7 +15,8 @@ export class Register {
             username: "naimmnaim123",
             email: "naimmnaim123@gmail.com",
             password: await bcrypt.hash("asdfzxcv123", 10),
-            gender: "male"
+            gender: "male",
+            isVerified: true
         });
     }
 

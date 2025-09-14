@@ -1,13 +1,16 @@
 import {z} from "zod";
 import {Types} from "mongoose";
 
-export const userFields = {
+const fields = {
     id: z.union([
-        z.string().regex(/^[0-9a-fA-F]{24}$/, "id harus berupa ObjectId MongoDB"),
+        z.string().regex(/^[0-9a-fA-F]{24}$/, "id tidak valid"),
         z.instanceof(Types.ObjectId)
     ]).transform((val) =>
         typeof val === "string" ? new Types.ObjectId(val) : val
-    ),
+    )
+}
+export const userFields = {
+    id: fields.id,
     firstName: z.string().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
     lastName: z.string().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
     email: z.email().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
@@ -20,7 +23,7 @@ export const userFields = {
 }
 
 export const productFields = {
-    id: z.string().min(1, 'id wajib diisi'),
+    id: fields.id,
     name: z.string().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
     brand: z.string().min(3, 'minimal 3 karakter').max(100, 'maksimal 100 karakter'),
     price: z.number().min(1000, 'minimal 1000').positive('harga harus positif'),
@@ -36,5 +39,9 @@ export const productFields = {
 export const orderFields = {
     paymentMethod: z.enum(['cash', 'transfer', 'e-wallet']),
     paymentStatus: z.enum(['paid', 'unpaid']),
-    quantity: z.number().min(1).max(100)
+    products: z.array(z.object({
+        product: fields.id,
+        quantity: z.number().positive().max(20),
+        price: z.number().positive()
+    }))
 }
